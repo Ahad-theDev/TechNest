@@ -1,10 +1,11 @@
+@model TechNest.Models.UserHomeViewModel
 @{
     ViewData["Title"] = "Customer Home";
 }
 
 <div class="p-4 mb-4 bg-light rounded-3">
-    <h1>Welcome, Customer</h1>
-    <p class="lead mb-0">Browse products, check your cart and track your orders.</p>
+    <h1>Welcome, @Model.Email</h1>
+    <p class="lead mb-0">You are logged in as: @Model.Roles</p>
 </div>
 
 <div class="row g-4">

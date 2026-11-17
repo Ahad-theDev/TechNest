@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechNest.Data;
+using TechNest.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,16 @@ using (var scope = app.Services.CreateScope())
         admin = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
         await userManager.CreateAsync(admin, "Admin@1234");
         await userManager.AddToRoleAsync(admin, "Admin");
+    }
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if(!await db.Categories.AnyAsync())
+    {
+        db.Categories.AddRange(
+            new Category { Name = "Chargers and Cables", Description = "Fast chargers, cables and power banks." },
+            new Category { Name = "Audio", Description = "Earbuds, headphones and speakers." },
+            new Category { Name = "Cases and Protection", Description = "Phone cases and screen protectors." }
+        );
+        await db.SaveChangesAsync();
     }
 }
 

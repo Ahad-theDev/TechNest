@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<TechNest.Models.Category>
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -12,7 +13,25 @@
 
 <!-- Categories -->
 <h2 class="mb-3">Shop by Category</h2>
+
+@if(!Model.Any())
+{
+    <p class="text-muted">No Categories yet.</p>
+}
 <div class="row g-4">
+    @foreach(var category in Model)
+    {
+        <div class="col-md-4">
+            <div class="card h-100 text-center">
+                <div class="card-body">
+                    <h5 class="card-titke">@category.Name</h5>
+                    <p class="card-text">@category.Description</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@* <div class="row g-4">
     <div class="col-md-4">
         <div class="card h-100 text-center">
             <div class="card-body">
@@ -37,4 +56,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> *@

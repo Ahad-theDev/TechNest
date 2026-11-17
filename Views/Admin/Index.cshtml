@@ -1,10 +1,11 @@
+@model TechNest.Models.UserHomeViewModel
 @{
     ViewData["Title"] = "Admin Home";
 }
 
 <div class="p-4 mb-4 bg-dark text-white rounded-3">
     <h1>Admin Dashboard</h1>
-    <p class="lead mb-0">Manage TechNest products, orders and customers.</p>
+    <p class="lead mb-0">Logged in as @Model.Email (@Model.Roles)</p>
 </div>
 
 <div class="row g-4">
