@@ -3,57 +3,49 @@
     ViewData["Title"] = "Home";
 }
 
-<!-- Hero section -->
+@section Styles {
+    <style>
+        .category-card {
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+        }
+    </style>
+}
 
-<section class="p-5 mb-4 bg-dark text-white rounded-3 text-center">
-    <h1 class="display-4 fw-bold">Welcome to TechNest</h1>
-    <p class="lead">Chargers, cases, earbuds and more.Your one stop for mobile accessories and gadgets.</p>
-    <a href="#" class="btn btn-primary btn-lg">Shop Now</a>
-</section>
+@section PageBanner {
+    <section class="p-5 mb-4 bg-dark text-white text-center">
+        <h1 class="display-4 fw-bold">Welcome to TechNest</h1>
+        <p class="lead">Chargers, cases, earbuds and more. Your one stop for mobile accessories and gadgets.</p>
+        <a href="#" class="btn btn-primary btn-lg">Shop Now</a>
+    </section>
+}
 
-<!-- Categories -->
 <h2 class="mb-3">Shop by Category</h2>
 
-@if(!Model.Any())
+@if (!Model.Any())
 {
-    <p class="text-muted">No Categories yet.</p>
+    <p class="text-muted">No categories yet.</p>
 }
+
 <div class="row g-4">
-    @foreach(var category in Model)
+    @foreach (var category in Model)
     {
         <div class="col-md-4">
-            <div class="card h-100 text-center">
+            <div class="card category-card h-100 text-center">
                 <div class="card-body">
-                    <h5 class="card-titke">@category.Name</h5>
+                    <h5 class="card-title">@category.Name</h5>
                     <p class="card-text">@category.Description</p>
                 </div>
             </div>
         </div>
     }
 </div>
-@* <div class="row g-4">
-    <div class="col-md-4">
-        <div class="card h-100 text-center">
-            <div class="card-body">
-                <h5 class="card-title">Chargers and Cables</h5>
-                <p class="card-text">Fast chargers, cables and power banks.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 text-center">
-            <div class="card-body">
-                <h5 class="card-title">Audio</h5>
-                <p class="card-text">Earbuds, headphones and speakers.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card h-100 text-center">
-            <div class="card-body">
-                <h5 class="card-title">Cases and Protection</h5>
-                <p class="card-text">Phone cases and screen protectors.</p>
-            </div>
-        </div>
-    </div>
-</div> *@
+
+@section Scripts {
+    <script>
+        console.log("TechNest home page loaded");
+    </script>
+}

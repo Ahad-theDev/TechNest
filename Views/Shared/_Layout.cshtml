@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/TechNest.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles",required:false);
 </head>
 
 <body>
@@ -47,6 +48,7 @@
             </div>
         </nav>
     </header>
+    @await RenderSectionAsync("PageBanner",required:false);
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
