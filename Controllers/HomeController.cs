@@ -1,36 +1,34 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TechNest.Data;
 using TechNest.Models;
+using TechNest.Repositories;
 
 namespace TechNest.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly ApplicationDbContext _context;
+    private readonly ICategoryRepository _categories;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(ILogger<HomeController> logger,ICategoryRepository categories)
     {
         _logger = logger;
-        _context = context;
+        _categories = categories;
     }
 
     public async Task<IActionResult> Index()
     {
-        var categories = await _context.Categories.OrderBy(c => c.Name).ToListAsync();
-        return View(categories);
+        var categories = await _categories.GetAllAsync();
+        return View(categories.ToList());
     }
-
     public IActionResult Privacy()
     {
         return View();
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [ResponseCache(Duration =0,Location =ResponseCacheLocation.None,NoStore =true)]
     public IActionResult Error()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(new ErrorViewModel{RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
     }
 }

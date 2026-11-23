@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TechNest.Data;
 using TechNest.Models;
+using TechNest.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,16 +12,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton<IDbConnectionFactory,SqlConnectionFactory>();
+builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
     foreach (var role in new[] { "Admin", "Customer" })
     {
@@ -32,7 +35,7 @@ using (var scope = app.Services.CreateScope())
     var admin = await userManager.FindByEmailAsync(adminEmail);
     if (admin == null)
     {
-        admin = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
+        admin = new ApplicationUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true, FullName = "TechNest Admin" };
         await userManager.CreateAsync(admin, "Admin@1234");
         await userManager.AddToRoleAsync(admin, "Admin");
     }

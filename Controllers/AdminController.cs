@@ -8,9 +8,9 @@ namespace TechNest.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AdminController(UserManager<IdentityUser> userManager)
+    public AdminController(UserManager<ApplicationUser> userManager)
     {
         _userManager = userManager;
     }
@@ -25,6 +25,7 @@ public class AdminController : Controller
 
         var model = new UserHomeViewModel
         {
+            FullName = string.IsNullOrWhiteSpace(user.FullName) ? user.Email ?? "" : user.FullName,
             Email = user.Email ?? "",
             Roles = string.Join(", ", await _userManager.GetRolesAsync(user))
         };

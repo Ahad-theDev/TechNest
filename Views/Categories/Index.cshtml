@@ -1,0 +1,70 @@
+@model List<TechNest.Models.Category>
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+@Html.AntiForgeryToken()
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Manage Categories</h1>
+    <a asp-action="Create" class="btn btn-primary">Add Category</a>
+</div>
+
+<table class="table table-striped align-middle">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in Model)
+        {
+            <tr id="row-@c.Id">
+                <td>@c.Id</td>
+                <td>@c.Name</td>
+                <td>@c.Description</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-outline-danger btn-delete"
+                            data-id="@c.Id" data-name="@c.Name">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".btn-delete").on("click", function () {
+                var id = $(this).data("id");
+                var name = $(this).data("name");
+
+                if (!confirm("Delete category '" + name + "'?")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("Delete", "Categories")',
+                    type: "POST",
+                    data: { id: id },
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            $("#row-" + id).fadeOut(300, function () { $(this).remove(); });
+                        } else {
+                            alert("Could not delete the category.");
+                        }
+                    },
+                    error: function () {
+                        alert("Something went wrong.");
+                    }
+                });
+            });
+        });
+    </script>
+}
