@@ -19,6 +19,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<IDbConnectionFactory,SqlConnectionFactory>();
 builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+builder.Services.AddScoped<IProductRepository,ProductRepository>();
+
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {

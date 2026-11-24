@@ -8,6 +8,7 @@
         .category-card {
             transition: transform .15s ease, box-shadow .15s ease;
         }
+
         .category-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
@@ -19,7 +20,7 @@
     <section class="p-5 mb-4 bg-dark text-white text-center">
         <h1 class="display-4 fw-bold">Welcome to TechNest</h1>
         <p class="lead">Chargers, cases, earbuds and more. Your one stop for mobile accessories and gadgets.</p>
-        <a href="#" class="btn btn-primary btn-lg">Shop Now</a>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-primary btn-lg">Shop Now</a>
     </section>
 }
 

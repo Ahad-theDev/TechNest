@@ -1,0 +1,25 @@
+@model List<TechNest.Models.Product>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No products found.</p>
+}
+
+<div class="row g-4">
+    @foreach (var p in Model)
+    {
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">@p.CategoryName</span>
+                    <h5 class="card-title">@p.Name</h5>
+                    <p class="card-text text-muted">@p.Description</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <strong>Rs @p.Price.ToString("N0")</strong>
+                    <small class="text-muted">@p.Stock in stock</small>
+                </div>
+            </div>
+        </div>
+    }
+</div>

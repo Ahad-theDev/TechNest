@@ -1,0 +1,41 @@
+@model List<TechNest.Models.Product>
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <h1 class="h3 mb-0">Our Products</h1>
+    <input type="text" id="searchBox" class="form-control" style="max-width: 320px"
+           placeholder="Search products..." />
+</div>
+
+<div id="productResults">
+    <partial name="_ProductCards" model="Model" />
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            var timer;
+
+            $("#searchBox").on("input", function () {
+                var term = $(this).val();
+                clearTimeout(timer);
+
+                timer = setTimeout(function () {
+                    $.ajax({
+                        url: '@Url.Action("Search", "Products")',
+                        type: "GET",
+                        data: { term: term },
+                        success: function (html) {
+                            $("#productResults").html(html);
+                        },
+                        error: function () {
+                            $("#productResults").html('<p class="text-danger">Search failed.</p>');
+                        }
+                    });
+                }, 300);
+            });
+        });
+    </script>
+}
